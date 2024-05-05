@@ -1,0 +1,67 @@
+﻿@page "/simple-account-datagrid"
+@using BlazoriseApp.Models.DTO
+@using BlazoriseApp.Services
+
+@inject IAccountService AccountService
+
+<DataGrid TItem="AccountDTO"
+          Data="@accounts"
+          Editable
+          Sortable
+          SortMode="DataGridSortMode.Single"
+          ShowPager
+          ShowPageSizes
+          Resizable
+          Responsive
+          Bordered
+          Hoverable
+          Narrow
+          Groupable
+          ShowGrouping
+          ResizeMode="TableResizeMode.Columns"
+          NewItemCreator="() => new AccountDTO(0, string.Empty, string.Empty)">
+    <DataGridColumns>
+        <DataGridColumn Field="@nameof(AccountDTO.Id)" Caption="Id" Editable></DataGridColumn>
+        <DataGridColumn Field="@nameof(AccountDTO.Username)" Caption="Username" Editable></DataGridColumn>
+        <DataGridColumn Field="@nameof(AccountDTO.Password)" Caption="Password" Editable></DataGridColumn>
+        <DataGridCommandColumn PreventRowClick>
+            <NewCommandTemplate>
+                <Button Color="Color.Success" Clicked="@context.Clicked">@context.LocalizationString</Button>
+            </NewCommandTemplate>
+            <EditCommandTemplate>
+                <Button Color="Color.Primary" Clicked="@context.Clicked">@context.LocalizationString</Button>
+            </EditCommandTemplate>
+            <SaveCommandTemplate>
+                <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Primary" Clicked="@context.Clicked">@context.LocalizationString</Button>
+            </SaveCommandTemplate>
+            <DeleteCommandTemplate>
+                <Button Color="Color.Danger" Clicked="@context.Clicked">@context.LocalizationString</Button>
+            </DeleteCommandTemplate>
+            <CancelCommandTemplate>
+                <Button Color="Color.Secondary" Clicked="@context.Clicked">@context.LocalizationString</Button>
+            </CancelCommandTemplate>
+            <ClearFilterCommandTemplate>
+                <Button Color="Color.Warning" Clicked="@context.Clicked">@context.LocalizationString</Button>
+            </ClearFilterCommandTemplate>
+        </DataGridCommandColumn>
+    </DataGridColumns>
+</DataGrid>
+
+@code {
+    private List<AccountDTO> accounts = [];
+
+    protected override Task OnInitializedAsync()
+        => LoadAccountsAsync();
+
+    private async Task LoadAccountsAsync()
+    {
+        try
+        {
+            accounts = await AccountService.GetLoadedAccountsAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to load accounts: {ex.Message}");
+        }
+    }
+}

@@ -1,9 +1,8 @@
-﻿namespace BlazoriseApp.Components.TodoApp
+﻿namespace BlazoriseApp.Components.TodoApp;
+
+public enum Filter
 {
-    public enum Filter
-    {
-        All,
-        Active,
-        Completed,
-    }
+    All,
+    Active,
+    Completed,
 }

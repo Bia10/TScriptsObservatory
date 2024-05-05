@@ -1,8 +1,8 @@
 <div>
-    @foreach ( var color in ThemeColors.Items.Values )
+    @foreach ( ThemeColor? color in ThemeColors.Items.Values )
     {
         <div @key="color.Key">
-            @foreach ( var shade in color.Shades.Values )
+            @foreach ( ThemeColorShade? shade in color.Shades.Values )
             {
                 var temp = shade.Value;
 

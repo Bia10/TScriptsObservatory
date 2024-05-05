@@ -31,7 +31,7 @@
                 </CardBody>
                 <CardBody Padding="Padding.Is0.OnY">
                     <ListGroup Flush>
-                        @foreach ( var todo in Todos )
+                        @foreach ( Todo? todo in Todos )
                         {
                             <TodoItem Todo="@todo" StatusChanged="@OnTodoStatusChanged" />
                         }
